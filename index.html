@@ -946,6 +946,34 @@ mark, .busca-hl{ background:#ffe08a; color:#2b323c; border-radius:3px; padding:0
 .nr-mini{ margin-top:8px; font-size:12.5px; color:var(--gray-600); }
 .nr-mini a{ color:var(--blue-600); font-weight:600; text-decoration:none; border-bottom:1px dotted currentColor; }
 .nr-mini a:hover{ border-bottom-style:solid; }
+.footlinks{ display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap; }
+.footlinks .footlink{ margin:0; } .footsep{ color:var(--gray-400); }
+.prod-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:10px; }
+.prod{ display:flex; align-items:center; gap:12px; padding:12px 14px; background:var(--surface); border:1px solid var(--gray-200); border-radius:12px; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:border-color .15s, transform .15s; }
+.prod:hover{ border-color:var(--blue-600); transform:translateY(-1px); }
+.prod-ic{ flex:0 0 38px; height:38px; border-radius:10px; background:var(--blue-100); color:var(--blue-700); display:flex; align-items:center; justify-content:center; }
+.prod-ic svg{ width:20px; height:20px; stroke:currentColor; fill:none; }
+.prod-tx{ flex:1; min-width:0; } .prod-tx strong{ display:block; font-size:14.5px; color:var(--blue-700); } .prod-tx span{ font-size:13px; color:var(--gray-600); }
+.prod-go svg{ width:16px; height:16px; stroke:var(--gray-400); fill:none; } .prod-go em{ font-size:11.5px; color:var(--orange-600); font-style:normal; font-weight:700; white-space:nowrap; }
+.prod.atual{ border-style:dashed; }
+.prod-grid.wide{ grid-template-columns:1fr; }
+/* Ações Preventivas — pequeno destaque */
+.g-destaque .prod{ background:linear-gradient(90deg, var(--orange-100), var(--surface) 70%); border-color:rgba(217,83,10,.35); border-left:4px solid var(--orange-600); padding:15px 16px; }
+.g-destaque .prod-ic{ background:var(--orange-600); color:#fff; }
+.g-destaque .prod-tx strong{ color:var(--orange-600); font-size:15.5px; }
+/* Desastres Tecnológicos — cor diferente, discreto */
+.g-tec .prod{ background:#f3f1f8; border-color:#ddd7ea; box-shadow:none; }
+.g-tec .prod-ic{ background:#e4def0; color:#5b4b8a; } .g-tec .prod-tx strong{ color:#5b4b8a; }
+/* Desastre Meteorológico e/ou Climatológico — outra tonalidade */
+.g-clima .prod{ background:#fdf6e3; border-color:#f0dfae; }
+.g-clima .prod-ic{ background:#f8e6b0; color:#9a6a00; } .g-clima .prod-tx strong{ color:#8a5d00; }
+:root[data-theme="dark"] .g-tec .prod{ background:rgba(139,120,200,.12); border-color:rgba(139,120,200,.3); }
+:root[data-theme="dark"] .g-tec .prod-ic{ background:rgba(139,120,200,.25); color:#c9bbf2; } :root[data-theme="dark"] .g-tec .prod-tx strong{ color:#c9bbf2; }
+:root[data-theme="dark"] .g-clima .prod{ background:rgba(240,196,90,.1); border-color:rgba(240,196,90,.3); }
+:root[data-theme="dark"] .g-clima .prod-ic{ background:rgba(240,196,90,.22); color:#f0c45a; } :root[data-theme="dark"] .g-clima .prod-tx strong{ color:#f0c45a; }
+:root[data-theme="dark"] .g-destaque .prod{ background:linear-gradient(90deg, rgba(255,154,90,.15), var(--surface) 70%); }
+.g-clima .prod{ background:#fbecc0; border-color:#e8cf7e; }
+.g-clima .prod-ic{ background:#f2d77f; color:#7d5400; } .g-clima .prod-tx strong{ color:#7a5200; }
 
 </style>
 </head>
@@ -1401,7 +1429,7 @@ const SCREENS = {
     </div>
     <div class="macro-divider">Conteúdo complementar</div>
     <div class="macro-link" onclick="nav('anexos')"><div class="icon">${icon('folder')}</div><div class="macro-text"><h3>Anexos</h3><p>18 anexos técnico-operacionais e modelos de documentos, para ver ou baixar em PDF.</p></div><div class="go">Abrir ${icon('chevron')}</div></div>
-    <div class="footlink" onclick="nav('siglas')">${icon('search')}Lista de siglas</div>
+    <div class="footlinks"><div class="footlink" onclick="nav('siglas')">${icon('search')}Lista de siglas</div><span class="footsep">·</span><div class="footlink" onclick="nav('produtos')">${icon('layers')}Outros produtos</div></div>
   `},
 
   plano: { crumb:"O Plano", render: () => `
@@ -2005,6 +2033,44 @@ acoesHTML = function(lista){
     return e ? `<strong><a class="org-link" href="javascript:void(0)" onclick="event.stopPropagation(); nav('${e.slug}')" title="Definição e atribuições de ${e.k}">${org}</a></strong><span>` : m;
   });
 };
+
+
+/* ===================== Outros produtos (lista em LISTA_DE_PRODUTOS_sites_paineis_e_dashboards.xlsx) ===================== */
+const GH = "https://marceloabelheira-cmd.github.io/";
+const PRODUTOS = [
+  {g:"Incêndios Florestais", icon:"fire", itens:[
+    ["Incêndios Florestais — GIGR 2025","Quantitativo por dia e eventos significativos (Matriz ICR)", GH+"IF_somenteem2025/"],
+    ["Incêndios Florestais — 2025 e 2026","Quantitativo por dia e eventos significativos (Matriz ICR)", GH+"IF2025/#2026"]]},
+  {g:"Chuvas", icon:"storm", itens:[
+    ["Chuvas — nov/25 a abr/26","Municípios com impactos significativos (Matriz ICR)", GH+"ESCALAv4/"],
+    ["Chuvas — nov/25 a abr/26","Municípios com Situação de Emergência e/ou Ajuda Humanitária", GH+"PAINEL_SEeAJUDAHUMANITARIA_chuvas2025.2026/"],
+    ["Painel de Chuvas","Municípios com impactos significativos (Matriz ICR) a partir de outubro de 2026", GH+"PAINEL_CHUVAS_RJ_visaogeral/"]]},
+  {g:"Prevenção e preparação", icon:"shield", cls:"destaque", wide:true, itens:[
+    ["Ações Preventivas — Histórico","Incêndios Florestais GIGR 2025 e Chuvas", GH+"SEDEC_acoesdeprevencao.preparacao_GRAC.e.outros/"]]},
+  {g:"Comitê Estadual El Niño", icon:"sun", itens:[
+    ["Portal El Niño (versão Comitê)","", GH+"COMITE_ELNINO_PORTAL/"],
+    ["Portal El Niño (versão pública)","", GH+"COMITE_ELNINO_PORTAL_versaopublica/"],
+    ["Comitê El Niño — Reuniões Plenárias","Relatórios consolidados", GH+"COMITE_ELNINO_ReunioesPlenarias/"]]},
+  {g:"Planos de Contingência", icon:"book", itens:[
+    ["PLANCON Animais (2026)","Plano prático", GH+"PLANCON_animais_PlanoPratico/"],
+    ["PLANCON SEIF — Secas, Estiagens e Incêndios Florestais (2026)","Este site", GH+"PLANCON_IF_2026/", true]]},
+  {g:"Desastres Tecnológicos", icon:"hazard", cls:"tec", wide:true, itens:[
+    ["Desastres Tecnológicos — município do Rio de Janeiro","2011 a 2025 · eventos significativos (Matriz ICR)", GH+"MATRIZICR_desastrestecnologicosRio_dashboard/"]]},
+  {g:"Desastre Meteorológico e/ou Climatológico", icon:"sun", cls:"clima", wide:true, itens:[
+    ["Painel de Excesso de Calor (em estudo)","Municípios com impactos significativos (Matriz ICR)", GH+"PAINEL_EXCESSODECALOR_MatrizICR/"]]}
+];
+SCREENS.produtos = { crumb:"Outros produtos", render: () => `
+  <div class="section-title">Outros produtos</div>
+  <p class="section-desc">Sites, painéis e dashboards desenvolvidos para a gestão de riscos e desastres no Estado do Rio de Janeiro. Os links abrem em nova aba.</p>
+  ${PRODUTOS.map(gr=>`
+    <div class="macro-divider">${gr.g}</div>
+    <div class="prod-grid ${gr.wide?'wide':''} ${gr.cls?'g-'+gr.cls:''}">${gr.itens.map(([t,d,u,atual])=>`
+      <a class="prod ${atual?'atual':''}" href="${u}" target="_blank" rel="noopener">
+        <span class="prod-ic">${icon(gr.icon)}</span>
+        <span class="prod-tx"><strong>${t}</strong>${d?`<span>${d}</span>`:''}</span>
+        <span class="prod-go">${atual?'<em>você está aqui</em>':icon('external')}</span>
+      </a>`).join('')}</div>`).join('')}
+`};
 
 function nav(id){
   stack.push(id);
